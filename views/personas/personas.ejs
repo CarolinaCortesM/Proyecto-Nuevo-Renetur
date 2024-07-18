@@ -1,0 +1,39 @@
+<%- include('../template/header', {
+    tituloweb:'Mi personal',
+    titulo:'Mi personal',
+	origen: 'personal',
+    descripcion: 'Aqui podras ver el listado de tu personal, tanto activo como inactivo, tambien podras modificar los campos que sean necesarios e ingresar peronal que ya este afiliado a la ARL Colsanitas para tener tu base de datos actualizada.'
+}); %>
+
+<div class="mb-4">
+    <a class="btn btn-success"href="personas/creacionp">Crear personal</a>
+</div>
+
+<table class="table"> 
+    <tr>
+        <th>Nombre Conductor</th>
+        <th>Cédula</th>
+        <th>Cargo</th>
+        <th>Placa</th>
+        <th>Programa</th>
+        <th>Fecha de Registro</th>
+        <th>Ciudad</th>
+        <th>Estado</th>
+        <th></th>
+    </tr>
+    <% arrayPersonas.forEach(element => {%>
+    <tr>
+            <td><%= element.nombre %></td>
+            <td><%= element.cedula %></td>
+            <td><%= element.tipoP %></td>
+            <td><%= element.placa %></td>
+            <td><%= element.programas %></td>
+            <td><%= element.fechaRegistro?.toLocaleDateString()%></td>
+            <td><%= element.ciudad %></td>
+            <td><%= element.estado %></td>
+            <td><a href="/personas/<%= element.id %>"  class="btn btn-success btn-sm">Modificar</a></td>
+    </tr>
+    <% })
+    %>
+</table>
+<%- include('../template/footer'); %>

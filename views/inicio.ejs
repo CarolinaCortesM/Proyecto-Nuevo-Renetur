@@ -1,0 +1,65 @@
+<%- include('template/header', {
+	tituloweb:'Bienvenido',
+	titulo:'Inicio',
+	origen: 'inicio',
+	descripcion: 'Bienvenido al portal de Gestión Humana, aquí podras ingresar y retirar conductores para su correcta afiliación y desafiliación de ARL'
+}); %>
+
+<div id="div-banner">
+    <img id="banner" src="">
+</div>
+
+<script>
+    const imagen = document.getElementById('banner')
+    let imagenes = []
+    let numGato = 0
+    let limit = 20
+    let milisegundos = 10000
+    async function traerGatos(){
+        const headers = new Headers({
+            "Content-Type": "application/json",
+            "x-api-key": "live_Zj8LGcxBQWJmzralyGUtM29hg8W5zBcv5Jjrc1Ux28BrQGha2uKLIbU2CmRBZcp1"
+        });
+
+        var requestOptions = {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        await fetch(`https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=${limit}`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                imagenes = result
+                cambiarGato()
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function cambiarGato() {
+        imagen.classList.add('hide')
+        setTimeout(() => {
+            imagen.setAttribute('src', imagenes[numGato].url)
+            imagen.classList.remove('hide')
+        }, 2300)
+        numGato++
+        
+        if (numGato == limit){
+            numGato = 0
+            setTimeout(() => {
+                traerGatos()
+            }, milisegundos);
+        }
+        else {
+            setTimeout(() => {
+                cambiarGato()
+            }, milisegundos);
+        }
+    }
+
+    traerGatos()
+    
+    
+</script>
+<%- include('template/footer'); %>

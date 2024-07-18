@@ -1,0 +1,150 @@
+<%- include('../template/header', {
+    tituloweb:'Modificacion de personal',
+    titulo:'Modificacion de personal',
+	origen: 'creacionp',
+    descripcion: 'Modifica tus registros en caso de haber diligenciado alguno mal. Verifica que los datos que estes ingresando sean los correctos, no puedes dejar campos vacios en el formulario'
+}); %>
+<form action="/personas" method="POST" name="formEditar" id="formEditar">
+
+     <div class="mt-3">
+        <label class= "form-label" for="nombre">Nombre</label>
+        <input  type ="text" class="form-control" type="text" name="nombre" id="nombre" value="<%= persona.nombre%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="cedula">Número de identificación</label>
+        <input class="form-control"type="text" name="cedula" id="cedula" value="<%= persona.cedula%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="">Cargo</label>
+        <select class="form-select" name="tipoP" id ="tipoP">
+            <option value="">Seleccionar...</option>
+            <option value="Conductor(a)" <%= persona.tipoP == 'Conductor(a)' ? 'selected' : '' %>>Conductor(a)</option>
+            <option value="Coordinador(a)"  <%= persona.tipoP == 'Coordinador(a)' ? 'selected' : '' %>>Coordinador(a)</option>
+        </select>
+    </div>
+    <div class="mt-3" id="div-placa">
+        <label class= "form-label" for="placa">Placa</label>
+        <input class="form-control" type="text" name="placa" id="placa" value="<%= persona.placa%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="">Programa al que pertenece</label>
+        <select class="form-select" name="programas" id ="programas">
+            <option value="">Seleccionar...</option>
+            <option value="Eps"<%= persona.programas == 'Eps' ? 'selected' : '' %>>Eps</option>
+            <option value="Consuta Domiciliaria"  <%= persona.programas == 'Consuta Domiciliaria' ? 'selected' : '' %>>Consuta Domiciliaria</option>
+            <option value="Tutelas" <%= persona.programas == 'Tutelas' ? 'selected' : '' %>>Tutelas</option>
+        </select>
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="dep">Zona-Ciudad</label>
+        <select class="form-select" name="ciudad" id ="ciudad">
+            <option value="">Seleccionar...</option>
+            <option value="Bogota-Aledaños" <%= persona.ciudad == 'Bogota-Aledaños' ? 'selected' : '' %>>Bogota-Aledaños</option>
+            <option value="Cali" <%= persona.ciudad == 'Cali' ? 'selected' : '' %>>Cali</option>
+            <option value="Santander" <%= persona.ciudad == 'Santander' ? 'selected' : '' %>>Santander</option>
+            <option value="Norte de Santander" <%= persona.ciudad == 'Norte de Santander' ? 'selected' : '' %>>Norte de Santander</option>
+            <option value="Atlantico" <%= persona.ciudad == 'Atlantico' ? 'selected' : '' %>>Atlantico</option>
+            <option value="Medellín" <%= persona.ciudad == 'Medellín' ? 'selected' : '' %>>Medellín</option>
+        </select>
+    </div>
+
+    <div class="mt-3">
+        <label class= "form-label" for="est">Estado</label>
+        <select class="form-select" name="estado" id ="estado" value="<%= persona.estado%>">
+            <option value="">Seleccionar...</option>
+            <option value="Activo" <%= persona.estado == 'Activo' ? 'selected' : '' %>>Activo</option>
+            <option value="Inactivo" <%= persona.estado == 'Inactivo' ? 'selected' : '' %>>Inactivo</option>
+        </select>
+    </div>
+
+    <div class="mt-3">
+
+        <input class="btn btn-success" type="submit" name="btnguardar" id="btnguardar" value="Guardar" >
+        <input type="hidden" name="id" id="id" value="<%= persona._id %>">
+
+        <a class="btn btn-secondary"href="/personas">Volver</a>
+    </div>
+</form>
+
+<script>
+
+const formEditar = document.querySelector('#formEditar')
+        formEditar.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const id = document.querySelector('#id').value
+            const nombre = document.querySelector('#nombre').value
+            const cedula = document.querySelector('#cedula').value
+            const placa = document.querySelector('#placa').value
+            const tipoP = document.querySelector('#tipoP').value
+            const programas = document.querySelector('#programas').value
+            const ciudad = document.querySelector('#ciudad').value
+            const estado = document.querySelector('#estado').value
+            
+            let valido = true
+            
+            if(nombre ==""){
+                valido = false
+                document.querySelector('#nombre').classList.add('input-vacio')
+            }
+            if(cedula =="" ){
+                valido = false
+                document.querySelector('#cedula').classList.add('input-vacio')
+            }
+            if(tipoP ==""){
+                valido = false
+                tipoP.classList.add('input-vacio')
+            }
+            if(placa == "" && tipoP != 'Coordinador(a)'){
+                valido = false
+                placa.classList.add('input-vacio')
+            }
+
+            if(programas =="" ){
+                valido = false
+                document.querySelector('#programas').classList.add('input-vacio')
+            }
+            if(ciudad =="" ){
+                valido = false
+                document.querySelector('#ciudad').classList.add('input-vacio')
+            }
+            if(estado =="" ){
+                valido = false
+                document.querySelector('#estado').classList.add('input-vacio')
+            }
+            if (!valido) {
+                error("Debe diligenciar todos los campos", formEditar)
+            } 
+            else {
+            try {
+                const data = await fetch(`/personas/${id}`, {
+                    method: 'put',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        nombre,
+                        cedula,
+                        placa,
+                        tipoP,
+                        programas,
+                        ciudad,
+                        estado
+                    })
+                })
+                const respuesta = await data.json()
+                if (respuesta.estado) {
+                    window.location.href = '/personas'
+                } else {
+                    console.log(respuesta)
+                }
+            } catch (error) {
+                console.log(error)
+                
+            }
+        }
+        
+        })
+
+</script>
+
+<%- include('../template/footer'); %>

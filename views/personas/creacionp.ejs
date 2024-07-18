@@ -1,0 +1,122 @@
+<%- include('../template/header', {
+    tituloweb:'Creación de personal',
+    titulo:'Creación de personal',
+	origen: 'creacionp',
+    descripcion: 'Agrerga personal, conductores que No han sido registrados por la opción de tramires/registro conductor, es decir, los que ya estan afiliados a ARL.'
+}); %>
+<form action="/personas" method="POST" name="formingr" id="formingr">
+
+     <div class="mt-3">
+        <label class= "form-label" for="nombre">Nombre</label>
+        <input class="form-control" type="text" name="nombre" id="nombre">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="cedula">Número de identificación</label>
+        <input class="form-control"type="text" name="cedula" id="cedula">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="">Cargo</label>
+        <select class="form-select" name="tipoP" id ="tipoP">
+            <option value="">Seleccionar...</option>
+            <option value="Conductor(a)">Conductor(a)</option>
+            <option value="Coordinador(a)">Coordinador(a)</option>
+        </select>
+    </div>
+    <div class="mt-3" id="div-placa">
+        <label class= "form-label" for="placa">Placa</label>
+        <input class="form-control" type="text" name="placa" id="placa">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="">Programa al que pertenece</label>
+        <select class="form-select" name="programas" id ="programas">
+            <option value="">Seleccionar...</option>
+            <option value="Eps">Eps</option>
+            <option value="Consuta Domiciliaria">Consuta Domiciliaria</option>
+            <option value="Tutelas">Tutelas</option>
+        </select>
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="dep">Zona-Ciudad</label>
+        <select class="form-select" name="ciudad" id ="ciudad">
+                <option value="">Seleccionar...</option>
+                <option value="Bogota-Aledaños">Bogota-Aledaños</option>
+                <option value="Cali">Cali</option>
+                <option value="Santander">Santander</option>
+                <option value="Norte de Santander">Norte de Santander</option>
+                <option value="Atlantico">Atlantico</option>
+                <option value="Medellín">Medellín</option>
+            </select>
+    </div>
+
+    <div class="mt-3">
+        <label class= "form-label" for="est">Estado</label>
+        <select class="form-select" name="estado" id ="estado">
+            <option value="">Seleccionar...</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
+    </div>
+
+    <div class="mt-3">
+        <input class="btn btn-success" type="submit" name="btnguardar" id="btnguardar" value="Agregar" >
+        <input class="btn btn-secondary" type="reset" name="btnlimpiar" id="btnlimpiar" value="Limpiar" >
+        <a class="btn btn-secondary"href="/personas">Volver</a>
+    </div>
+</form>
+
+<script>
+
+const formEditar = document.querySelector('#formingr')
+
+formEditar.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const nombre = document.querySelector('#nombre').value
+    const cedula = document.querySelector('#cedula').value
+    const placa = document.querySelector('#placa').value
+    const tipoP = document.querySelector('#tipoP').value
+    const programas = document.querySelector('#programas').value
+    const ciudad = document.querySelector('#ciudad').value
+    const estado = document.querySelector('#estado').value
+    
+    let valido = true
+
+    if(nombre ==""){
+        valido = false
+        document.querySelector('#nombre').classList.add('input-vacio')
+    }
+    if(cedula =="" ){
+        valido = false
+        document.querySelector('#cedula').classList.add('input-vacio')
+    }
+    if(tipoP =="" ){
+        valido = false
+        document.querySelector('#tipoP').classList.add('input-vacio')
+    }
+    if(placa =="" && tipoP != 'Coordinador(a)'){
+        valido = false
+        document.querySelector('#placa').classList.add('input-vacio')
+    }
+
+    if(programas =="" ){
+        valido = false
+        document.querySelector('#programas').classList.add('input-vacio')
+    }
+    if(ciudad =="" ){
+        valido = false
+        document.querySelector('#ciudad').classList.add('input-vacio')
+    }
+    if(estado =="" ){
+        valido = false
+        document.querySelector('#estado').classList.add('input-vacio')
+    }
+    if (!valido) {
+        error("Debe diligenciar todos los campos", formingr)
+    } else {
+        formEditar.submit()
+    }
+})
+
+</script>
+
+
+<%- include('../template/footer'); %>

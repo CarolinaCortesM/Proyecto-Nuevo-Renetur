@@ -1,0 +1,112 @@
+<%- include('../template/header', {
+    tituloweb: tipo == 'ingreso' ? 'Ingresar personal' : 'Retirar personal',
+    titulo: tipo == 'ingreso' ? 'Ingresar personal' : 'Retirar personal',
+	origen: tipo,
+    descripcion: 'En esta sección usted podrá registrar a los conductores que deban ser afiliados a la ARL Colsanitas y a su vez ingresdos a la base de datos de conductores'
+}); %>
+
+<form action="/tramites" method="POST" name="fortramite" id="fortramite">
+    
+    <div class="mt-3">
+        <% if (tipo == 'ingreso'){%>
+            <label class= "form-label" for="fechaEvento">Fecha de ingreso</label>
+        <% } 
+        else {%>
+            <label class= "form-label" for="fechaEvento">Fecha de retiro</label>
+        <% }%>
+        <input class="form-control" type="date" name="fechaEvento" id="fechaEvento">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="nombreConductor">Nombre del conductor</label>
+        <input class="form-control" type="text" name="nombreConductor" id="nombreConductor">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="cedula">Número de identificación</label>
+        <input class="form-control" type="text" name="cedula" id="cedula">
+    </div> 
+    <div class="mt-3">
+        <label class= "form-label" for="placa">Placa del vehículo</label>
+        <input class="form-control" type="text" name="placa" id="placa">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="programa">Programa al que pertenece</label>
+        <select class="form-select" name="programa" id ="programa">
+            <option value="">Seleccionar...</option>
+            <option value="Eps">Eps</option>
+            <option value="Consuta Domiciliaria">Consuta Domiciliaria</option>
+            <option values="Tutelas">Tutelas</option>
+        </select>
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="ciudad">Zona-Ciudad</label>
+        <select class="form-select" name="ciudad" id ="ciudad">
+            <option value="">Seleccionar...</option>
+            <option value="Bogota-Aledaños">Bogota-Aledaños</option>
+            <option value="Cali">Cali</option>
+            <option value="Santander">Santander</option>
+            <option value="Norte de Santander">Norte de Santander</option>
+            <option value="Atlantico">Atlantico</option>
+            <option value="Medellín">Medellín</option>
+        </select>
+    </div>
+    
+    <div class="mt-3">
+        <input type="hidden" name="tipoTramite" id="tipoTramite" value="<%=tipo%>">
+        <input class="btn btn-success" type="submit" name="btnguardar" id="btnguardar" value="Guardar">
+        <input class="btn btn-secondary" type="reset" name="btnlimpiar" id="btnlimpiar" value="Limpiar" >
+        <a class="btn btn-secondary"href="/tramites">Volver</a>
+
+    </div>
+</form>
+
+<script>
+
+const formdiligenciar = document.querySelector('#fortramite')
+
+formdiligenciar.addEventListener('submit', async (e) => {
+    e.preventDefault()
+        const nombreConductor = document.querySelector('#nombreConductor').value
+        const cedula = document.querySelector('#cedula').value
+        const placa = document.querySelector('#placa').value
+        const programa = document.querySelector('#programa').value
+        const fechaEvento = document.querySelector('#fechaEvento').value
+        const ciudad = document.querySelector('#ciudad').value
+    
+    let valido = true
+
+    if(nombreConductor ==""){
+        valido = false
+        document.querySelector('#nombreConductor').classList.add('input-vacio')
+    }
+    if(cedula =="" ){
+        valido = false
+        document.querySelector('#cedula').classList.add('input-vacio')
+    }
+    if(placa =="" ){
+        valido = false
+        document.querySelector('#placa').classList.add('input-vacio')
+    }
+    if(programa =="" ){
+        valido = false
+        document.querySelector('#programa').classList.add('input-vacio')
+    }
+    if(ciudad =="" ){
+        valido = false
+        document.querySelector('#ciudad').classList.add('input-vacio')
+    }
+    if(fechaEvento =="" ){
+        valido = false
+        document.querySelector('#fechaEvento').classList.add('input-vacio')
+    }
+    if (!valido) {
+        error("Debe diligenciar todos los campos", fortramite)
+    } else {
+        formdiligenciar.submit()
+    }
+})
+
+</script>
+
+
+
+<%- include('../template/footer'); %>

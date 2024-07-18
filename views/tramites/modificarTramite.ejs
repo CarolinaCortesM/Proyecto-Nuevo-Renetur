@@ -1,0 +1,135 @@
+<%- include('../template/header', {
+    tituloweb:'Modificar Tramite',
+    titulo:'modificar tramite',
+	origen: 'diligenciarTramite',
+    descripcion: 'Modifica tus registros en caso de haber diligenciado alguno mal. Verifica que los datos que estes ingresando sean los correctos, no puedes dejar campos vacios en el formulario'
+}); %>
+
+<form action="/tramites" method="POST" name="formingr" id="formingr">
+    
+    <div class="mt-3">
+        <% if (tramite.tipoTramite == 'ingreso'){%>
+            <label class= "form-label" for="fechaEvento">Fecha de ingreso</label>
+        <% } 
+        else {%>
+            <label class= "form-label" for="fechaEvento">Fecha de retiro</label>
+        <% }%>
+        <input class="form-control" type="date" name="fechaEvento" id="fechaEvento"  value="<%=tramite.fechaEvento?.toISOString().substr(0,10)%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="nombre">Nombre del conductor</label>
+        <input class="form-control" type="text" name="nombreConductor" id="nombreConductor" value="<%=tramite.nombreConductor%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="cc">Número de identificación</label>
+        <input class="form-control" type="text" name="cedula" id="cedula" value="<%=tramite.cedula%>">
+    </div> 
+    <div class="mt-3">
+        <label class= "form-label" for="placa">Placa del vehículo</label>
+        <input class="form-control" type="text" name="placa" id="placa" value="<%=tramite.placa%>">
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="">Programa al que pertenece</label>
+        <select class="form-select" name="programa" id ="programa">
+            <option value="">Seleccionar...</option>
+            <option value="Eps"   <%= tramite.programa == 'Eps' ? 'selected' : '' %>>Eps</option>
+            <option value="Consuta Domiciliaria" <%= tramite.programa == 'Consuta Domiciliaria' ? 'selected' : '' %>>Consuta Domiciliaria</option>
+            <option value="Tutelas" <%= tramite.programa == 'Tutelas' ? 'selected' : '' %>>Tutelas</option>
+        </select>
+    </div>
+    <div class="mt-3">
+        <label class= "form-label" for="dep">Zona-Ciudad</label>
+        <select class="form-select" name="ciudad" id ="ciudad">
+            <option value="">Seleccionar...</option>
+            <option value="Bogota-Aledaños"  <%= tramite.ciudad == 'Bogota-Aledaños' ? 'selected' : '' %>>Bogota-Aledaños</option>
+            <option value="Cali" <%= tramite.ciudad == 'Cali' ? 'selected' : '' %>>Cali</option>
+            <option value="Santander"  <%= tramite.ciudad == 'Santander' ? 'selected' : '' %>>Santander</option>
+            <option value="Norte de Santander" <%= tramite.ciudad == 'Norte de Santander' ? 'selected' : '' %>>Norte de Santander</option>
+            <option value="Atlantico" <%= tramite.ciudad == 'Atlantico' ? 'selected' : '' %>>Atlantico</option>
+            <option value="Medellín" <%= tramite.ciudad == 'Medellín' ? 'selected' : '' %>>Medellín</option>
+        </select>
+    </div>
+        
+    <div class="mt-3">
+        <input type="hidden" name="id" id="id" value="<%=tramite._id%>">
+        <input class="btn btn-success" type="submit" name="btnguardar" id="btnguardar" value="Guardar">
+        
+        <a class="btn btn-secondary"href="/tramites">Volver</a>
+
+    </div>
+
+</form>
+
+<script>
+
+    const formingr = document.querySelector('#formingr')
+    formingr.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const id = document.querySelector('#id').value
+            const nombreConductor = document.querySelector('#nombreConductor').value
+            const cedula = document.querySelector('#cedula').value
+            const placa = document.querySelector('#placa').value
+            const programa = document.querySelector('#programa').value
+            const fechaEvento = document.querySelector('#fechaEvento').value
+            const ciudad = document.querySelector('#ciudad').value
+ 
+            let valido = true
+
+            if(nombreConductor ==""){
+                valido = false
+                document.querySelector('#nombreConductor').classList.add('input-vacio')
+            }
+            if(cedula =="" ){
+                valido = false
+                document.querySelector('#cedula').classList.add('input-vacio')
+            }
+            if(placa =="" ){
+                valido = false
+                document.querySelector('#placa').classList.add('input-vacio')
+            }
+            if(programa =="" ){
+                valido = false
+                document.querySelector('#programa').classList.add('input-vacio')
+            }
+            if(fechaEvento =="" ){
+                valido = false
+                document.querySelector('#fechaEvento').classList.add('input-vacio')
+            }
+            if(ciudad =="" ){
+                valido = false
+                document.querySelector('#ciudad').classList.add('input-vacio')
+            }
+            if (!valido) {
+                error("Debe diligenciar todos los campos", formingr)
+            } else {
+            try {
+                const data = await fetch(`/tramites/${id}`, {
+                    method: 'put',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        nombreConductor,
+                        cedula,
+                        placa,
+                        programa,
+                        fechaEvento,
+                        ciudad
+                    })
+                })
+                const respuesta = await data.json()
+                if (respuesta.estado) {
+                    window.location.href = '/tramites'
+                } else {
+                    console.log(respuesta)
+                }
+            } catch (error) {
+                console.log(error)
+                
+            }
+        }
+        })
+
+</script>
+
+<%- include('../template/footer'); %>

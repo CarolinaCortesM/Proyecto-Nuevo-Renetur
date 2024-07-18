@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NR - <%= titulo%></title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="preload" href="/css/normalize.css" as="style">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="preload" href="/css/styles.css" as="style">
+	<link rel="stylesheet" href="/css/styles.css">
+  
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="titulo-principal" href="/">Talento Humano</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link <%= origen == 'tramites' ? 'active' : '' %>" href="/tramites">Trámites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= origen == 'personal' ? 'active' : '' %>" href="/personas">Personas</a>
+          </li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+
+    <div class="contenedor-titulo">
+      <div class="titulo-descripcion">
+        <div>
+          <h1 class="text-success"><%=tituloweb%></h1>
+          <p><%- descripcion %></p>
+        </div>
+      </div>
+        <img class = logo src="/images/logo2.jpg" alt="banner"Class="imgperfil">
+    </div>   
+

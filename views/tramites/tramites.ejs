@@ -1,0 +1,54 @@
+<%- include('../template/header', {
+    tituloweb:'Trámites',
+    titulo:'Trámites',
+	origen: 'tramites',
+    descripcion: 'Ingresa los condutores nuevos en la operación y realiza los retiros correspondientes'
+}); %>
+
+<div class="mb-4">
+    <a class="btn btn-success"href="/tramites/ingreso">Registrar conductor</a>
+    <a class="btn btn-secondary"href="/tramites/retiro">Retirar conductor</a>
+</div>
+
+
+<table class="table"> 
+    <tr>
+        <th>Nombre Conductor</th>
+        <th>Cédula</th>
+        <th>Placa</th>
+        <th data-filter-control="select">Ingreso o Retiro</th>
+        <th>Fecha de Ingreso o Retiro</th>
+        <th>
+            Programa
+            <select name="filtro" id="filtro">
+                <option value=""></option>
+                <option value="a">a</option>
+                <option value="b">b</option>
+            </select>
+        </th>
+        <th>Ciudad</th>
+        <th>Estado</th>
+        <th>Aprobacion</th>
+        <th></th>
+    </tr>
+    <% arrayTramite.forEach(element => {%>
+        <tr data-programa="<%= element.programa %>">
+            <td><%= element.nombreConductor %></td>
+            <td><%= element.cedula %></td>
+            <td><%= element.placa %></td>
+            <td><%= element.tipoTramite %></td>
+            <td><%= element.fechaEvento?.toLocaleDateString() %></td>
+            <td><%= element.programa %></td>
+            <td><%= element.ciudad %></td>
+            <td><%= element.estado %></td>
+            <td><%= element.fechaAprobacion?.toLocaleString() %></td>
+            <td><a href="/tramites/modificar/<%= element.id %>"  class="btn btn-success btn-sm">Modificar</a></td>
+        </tr>
+    <% })
+    %>
+</table>
+
+
+<%- include('../template/footer'); %>
+
+    

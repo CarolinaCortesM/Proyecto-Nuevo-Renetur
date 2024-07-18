@@ -1,0 +1,77 @@
+:root{
+	--verde: #0f6008;
+	--gris: #8a8787eb;
+}
+body {
+}
+main {    
+    width: 80%;
+    margin: 0 auto;
+    padding: 0 2rem 2rem 2rem;
+}
+.logo{
+    width: 280px;
+    height: 140px;
+}
+.contenedor-titulo{
+    display: grid;
+    grid-template-columns:auto 300px;
+    margin-bottom: 1rem;
+}
+.contenedor-titulo .titulo-descripcion{
+    display: flex;
+    align-items: center;
+}
+.contenedor-titulo p{
+    color: rgb(105 105 105);
+    /* margin-top: 1.5rem; */
+}
+nav li{
+    padding: 0 1rem;
+    font-size: 1.1rem;
+}
+nav li:hover{
+    background-color: rgba(255,255,255,.1);
+}
+::-webkit-scrollbar{
+    background-color: #dce0db;
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #429662;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+}
+.titulo-principal{
+    color: #0f9946;
+    font-size: 1.6rem;
+    padding: 0 1rem 4px 1rem;
+    text-decoration: none;
+}
+
+.titulo-principal:hover{
+    color: #168241;
+}
+
+.input-vacio{
+    border-color: red;
+}
+
+.ocultar{
+    display: none;
+}
+
+#div-banner{
+    margin: 0 auto;
+    width: 60%;
+}
+#banner {
+    width: 100%;
+    transition: opacity 1.8s ease-in-out;
+    border-radius: 2rem;
+}
+.hide {
+    opacity: 0 !important;
+}
